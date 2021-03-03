@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page 2</title>
+    <script>
+      sessionStorage.setItem("name", "Your Name");
+
+      window.addEventListener("message", function (event) {
+        console.log(event);
+        if (!event.origin.includes(location.host)) {
+          console.log("非同源网站，不允许这样玩，有安全隐患");
+          return;
+        }
+        if (event.data.clear === true) {
+          sessionStorage.removeItem(event.data.key);
+          return;
+        }
+
+        if (event.data.set === true) {
+          sessionStorage.setItem(event.data.key, event.data.value);
+          return;
+        }
+      });
+
+      function checkSessionData() {
+        alert(sessionStorage.getItem("name"));
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Page 2</h1>
+    <button onclick="checkSessionData()">查看sessionStorage Data</button>
+  </body>
+</html>

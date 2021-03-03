@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Window API Demo</title>
+    <script>
+      let newPageWindow;
+      function openNewPage() {
+        newPageWindow = window.open();
+
+        newPageWindow.location.href =
+          "http://" + window.location.host + "/page2.html";
+      }
+
+      function clearPage2SessionData() {
+        if (newPageWindow) {
+          newPageWindow.postMessage({ clear: true, key: "name" });
+        }
+      }
+
+      function setPage2SessionData(params) {
+        if (newPageWindow) {
+          const value = document.getElementById("input").value;
+          newPageWindow.postMessage({
+            set: true,
+            key: "name",
+            value,
+          });
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="openNewPage()">打开同源新页面</button>
+    <br />
+    <input id="input" placeholder="请输入要设置的内容" />
+    <button onclick="setPage2SessionData()">
+      设置 page 2的sessionStorage 数据
+    </button>
+    <br />
+    <button onclick="clearPage2SessionData()">
+      清除 page 2的sessionStorage数据
+    </button>
+  </body>
+</html>
